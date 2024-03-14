@@ -65,7 +65,9 @@ contract ERC4626 is ERC20 {
         // Need to transfer before minting or ERC777s could reenter.
         asset.safeTransferFrom(msg.sender, address(this), assets);
 
-        _mint(receiver, shares);
+        // VULNERABILITY: minting `asserts` instead of `shares`
+        // based on https://code4rena.com/reports/2022-02-tribe-turbo#h-01-erc4626-mint-uses-wrong-amount
+        _mint(receiver, assets);
 
         emit Deposit(msg.sender, receiver, assets, shares);
     }
