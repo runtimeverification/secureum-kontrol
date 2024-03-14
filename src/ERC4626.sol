@@ -39,7 +39,9 @@ contract ERC4626 is ERC20 {
         ERC20 _asset,
         string memory _name,
         string memory _symbol
-    ) ERC20(_name, _symbol, _asset.decimals()) {
+        // VULNERABILITY: decimals should mimic the underlying ERC20's decimals
+        // Taken from https://github.com/code-423n4/2023-01-astaria-findings/issues/129
+    ) ERC20(_name, _symbol, 18) {
         asset = _asset;
     }
 
@@ -54,8 +56,13 @@ contract ERC4626 is ERC20 {
         // Need to transfer before minting or ERC777s could reenter.
         asset.safeTransferFrom(msg.sender, address(this), assets);
 
+        // VULNERABILITY: no slippage protection, which would've looked like
+        // require(assets > minDepositAmount(), "VALUE_TOO_SMALL");
+        // Taken from https://github.com/ERC4626-Alliance/ERC4626-Contracts/blob/main/src/ERC4626RouterBase.sol
         _mint(receiver, shares);
 
+        // VULNERABILITY: I think it also doesn't support fee-on-transfer tokens?
+        // Source: https://github.com/code-423n4/2023-01-astaria-findings/issues/424
         emit Deposit(msg.sender, receiver, assets, shares);
     }
 
@@ -140,7 +147,12 @@ contract ERC4626 is ERC20 {
     function previewMint(uint256 shares) public view virtual returns (uint256) {
         uint256 supply = totalSupply; // Saves an extra SLOAD if totalSupply is non-zero.
 
-        return supply == 0 ? shares : shares.mulDivUp(totalAssets(), supply);
+        // VULNERABILITY: changed from `supply == 0 ? shares : ...`
+        // which means that during the first deposit (i.e. when supply == 0),
+        // previewDeposit will return the same assets amount for the shares (standard implementation),
+        // while previewMint will simply return 10e18.
+        // taken from https://github.com/code-423n4/2023-01-astaria-findings/issues/588
+        return supply == 0 ? 10e18 : shares.mulDivUp(totalAssets(), supply);
     }
 
     function previewWithdraw(uint256 assets) public view virtual returns (uint256) {
@@ -158,6 +170,9 @@ contract ERC4626 is ERC20 {
     //////////////////////////////////////////////////////////////*/
 
     function maxDeposit(address) public view virtual returns (uint256) {
+        // This could be a trick question: the standard states that it
+        // MUST return 2 ** 256 - 1 if there is no limit on the maximum amount of assets that may be deposited.
+        // which is true:
         return type(uint256).max;
     }
 
