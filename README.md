@@ -10,7 +10,7 @@ Documentation and installation instructions for Kontrol can be found in [Kontrol
 
 ### Day Three — Introduction to Kontrol
 
-The first workshop for Kontrol is focused on basic usage of its commands in application to [WETH9](https://github.com/runtimeverification/secureum-kontrol/blob/master/src/tokens/WETH9.sol) contract.
+The first workshop for Kontrol is focused on basic usage of its commands in application to [WETH9](https://github.com/runtimeverification/secureum-kontrol/blob/master/src/tokens/WETH9.sol) contract and the [tests]([url](https://github.com/runtimeverification/secureum-kontrol/blob/master/test/WETH9.t.sol)) we have defined for it.
 
 ### Build
 
@@ -32,7 +32,7 @@ To prove that WETH9 `approve()` function changes `allowance` correctly, you can 
 kontrol prove --match-test 'WETH9Test.test_approve(address,address,uint256)'
 ```
 The process should end successfully, indicating that this property is always true and, whatever the values of `from`, `to`, and `amount` are, `approve()` behaves correctly.
-The test being executed is as follows:
+The [test]([url](https://github.com/runtimeverification/secureum-kontrol/blob/master/test/WETH9.t.sol)) being executed is as follows:
 ```solidity
     function test_approve(address from, address to, uint256 amount) public {
         vm.prank(from);
