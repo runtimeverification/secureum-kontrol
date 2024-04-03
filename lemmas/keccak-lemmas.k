@@ -52,4 +52,7 @@ module KECCAK-LEMMAS
       requires 0 <Int A andBool A <Int pow256
       [simplification, symbolic(_X, _Y), concrete(A)]
 
+    // lookup simplification lemma 
+    rule M:Map [ KEY <- #lookup(M, KEY) ] => M [simplification]
+
 endmodule

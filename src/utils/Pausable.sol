@@ -1,13 +1,21 @@
+///////////////////////////////////////////////////////////////////////////////
+///                            !!! WARNING !!!                              ///
+/// THIS CONTRACT CONTAINS VULNERABILITIES. DO NOT USE OR DEPLOY.           ///
+/// IT WAS CREATED FOR EDUCATIONAL PURPOSES.                                ///
+///////////////////////////////////////////////////////////////////////////////
+
 // SPDX-License-Identifier: MIT
-// OpenZeppelin Contracts (last updated v5.0.0) (utils/Pausable.sol)
+// Modified OpenZeppelin Contracts (last updated v5.0.0) (utils/Pausable.sol)
 
 pragma solidity ^0.8.20;
 
 /**
+ * @author Modified from openzeppelin-contracts (https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/utils/Pausable.sol)
  * @dev Contract module which allows children to implement an emergency stop
  * mechanism that can be triggered by an authorized account.
  */
 abstract contract Pausable {
+    // WARN: `paused` is made public for illustration purposes
     bool public paused;
 
     /**
@@ -61,6 +69,7 @@ abstract contract Pausable {
         _;
     }
 
+    // WARN: modified for illustration puposes
     /**
      * @dev Triggers stopped state
     */

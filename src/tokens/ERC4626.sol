@@ -12,6 +12,8 @@ import {SafeTransferLib} from "../utils/SafeTransferLib.sol";
 import {FixedPointMathLib} from "../utils/FixedPointMathLib.sol";
 import {Pausable} from "../utils/Pausable.sol";
 
+/// @notice Minimal ERC4626 tokenized Vault implementation.
+/// @author Modified from Solmate (https://github.com/transmissions11/solmate/blob/main/src/tokens/ERC4626.sol)
 contract ERC4626 is ERC20, Pausable {
     using SafeTransferLib for ERC20;
     using FixedPointMathLib for uint256;
@@ -81,6 +83,7 @@ contract ERC4626 is ERC20, Pausable {
         asset.safeTransfer(receiver, assets);
     }
 
+    // WARN: `whenNotPaused` is added for illustration purposes
     function totalAssets() public view virtual whenNotPaused returns (uint256) {
         return asset.balanceOf(address(this));
     }

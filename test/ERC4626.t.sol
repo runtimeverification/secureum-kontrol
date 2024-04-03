@@ -37,7 +37,6 @@ contract ERC4626Test is Test, KontrolCheats {
     function test_totalAssets_revertsWhenPaused(address caller) public {
         _notBuiltinAddress(caller);
 
-        vm.assume(!vault.paused());
         vault.pause();
 
         vm.startPrank(caller); 

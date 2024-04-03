@@ -6,6 +6,7 @@ import {SafeTransferLib} from "../utils/SafeTransferLib.sol";
 import {FixedPointMathLib} from "../utils/FixedPointMathLib.sol";
 
 /// @notice Prototype of ERC4626 MultiVault extension
+/// @author Modified from MultiVault (https://github.com/z0r0z/MultiVault/blob/main/src/MultiVault.sol)
 contract MultiVault {
     using SafeTransferLib for ERC20;
     using FixedPointMathLib for uint256;
@@ -49,5 +50,5 @@ contract MultiVault {
         return true;
     }
 
-    // Rest of the logic is omitted
+    // the rest of the logic is omitted
 }
