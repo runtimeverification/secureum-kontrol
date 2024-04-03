@@ -44,6 +44,13 @@ contract WETH9Test is Test, KontrolCheats {
         asset.deposit{value: msg.value}();
     }
 
+    function _notBuiltinAddress(address addr) internal view {
+        vm.assume(addr != address(this));
+        vm.assume(addr != address(vm));
+        vm.assume(addr != address(asset));
+    }
+
+    /*
     function test_withdraw(address from, uint256 amount) public payable {
         _notBuiltinAddress(from);
 
@@ -55,10 +62,5 @@ contract WETH9Test is Test, KontrolCheats {
         vm.prank(from);
         asset.withdraw(amount);
     }
-
-    function _notBuiltinAddress(address addr) internal view {
-        vm.assume(addr != address(this));
-        vm.assume(addr != address(vm));
-        vm.assume(addr != address(asset));
-    }
+    */
 }

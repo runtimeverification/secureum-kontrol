@@ -1,60 +1,46 @@
 ## Secureum Workshop on Kontrol
 
-This repository contains a project that will be used during a Secureum workshop on Kontrol.
+This repository contains a project that will be used during a Secureum workshop on Kontrol. Contracts present in this repository are modified for educational purposes, please DO NOT use them in production.
 
 ## Documentation
 
-Documentation can be found in [Kontrol Book](https://docs.runtimeverification.com/kontrol).
+Documentation and installation instructions for Kontrol can be found in [Kontrol Book](https://docs.runtimeverification.com/kontrol). Source code for Kontol is available in Kontrol [repository](https://github.com/runtimeverification/kontrol). 
 
-## Usage
+## Workshop Instructions
+
+### Day Three — Introduction to Kontrol
+
+The first workshop for Kontrol is focused on basic usage of its commands in application to [WETH9](https://github.com/runtimeverification/secureum-kontrol/blob/master/src/tokens/WETH9.sol) contract.
 
 ### Build
 
-To build a project and include lemmas that are required to reason about keccak-related expressions (more on that later!), run
+To clone and build this project, run 
+
 ```shell
-kontrol build --require lemmas/keccak-lemmas.k --module-import ERC4626Test:KECCAK-LEMMAS
+git clone https://github.com/runtimeverification/secureum-kontrol.git && cd secureum-kontrol
 ```
-This command will run `forge build` under the hood, and will, then, use the produced compilation artifacts to generate K definitions that can be verified.
+followed by 
+```shell
+kontrol build
+```
+This command will run `forge build` under the hood, and will, then, use the produced compilation artifacts to generate K definitions that can be verified. You can inspect the `out/` folder to view the artifacts produced by `kontrol build` and make sure that it executed successfully.
 
 ### Prove
 
-#### Verifying properties
-
-To prove that the ERC4626's property "asset() MUST never revert" holds, run
+To prove that WETH9 `approve()` function changes `allowance` correctly, you can run the following command:
 ```shell
-kontrol prove --match-test test_prop_asset
+kontrol prove --match-test 'WETH9Test.test_approve(address,address,uint256)'
 ```
-The process should end successfully, indicating that this property is always true and, whoever is calling the function, `asset()` never reverts.
+The process should end successfully, indicating that this property is always true and, whatever the values of `from`, `to`, and `amount` are, `approve()` behaves correctly.
 The test being executed is as follows:
 ```solidity
-    // asset
-    // "MUST NOT revert."
-    function test_prop_asset(address caller) public {
-        _notBuiltinAddress(caller);
-        vm.prank(caller); vault.asset();
+    function test_approve(address from, address to, uint256 amount) public {
+        vm.prank(from);
+        asset.approve(to, amount);
+
+        uint256 toAllowance = asset.allowance(from, to);
+        assert(toAllowance == amount);
     }
-```
-
-To prove that `transfer()` function in WETH9 correctly adjusts user balances, run
-```shell
-kontrol prove --match-test WETH9Test.testTransfer
-```
-
-You might also try to prove the same property of ERC4626, however, if you execute
-```shell
-kontrol prove --match-test ERC4626Test.testTransfer
-```
-you will see that the test is failing if `address from` is `0`, as checked in one of the `require` statements. Running the same command with `--hevm` should make the test pass, as, in this case, a less strict `hevm` success predicate will be used instead of the default `foundry` one.
-
-#### Proving equivalence
-
-Kontrol, and FV in general, can be used to assert equivalence between different implementations of smart contract functions. To prove that a highly optimized implementation of `mulWad` funciton in Solady is equivalent to a more readable Solidity version, run
-```shell
-kontrol build --require lemmas/eq-lemmas.k --module-import EquivalenceTest:EQ-LEMMAS
-```
-to build a project with useful lemmas. Then, run
-```shell
-kontrol prove --match-test testMulWad
 ```
 
 ### Help
