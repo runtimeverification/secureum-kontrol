@@ -2,6 +2,11 @@ name: Test Kontrol
 
 on: 
   workflow_dispatch:
+    inputs:
+      FOUNDRY_PROFILE: 
+        description: 'The Foundry profile to use'
+        required: false
+        default: ''
   pull_request:
     branches:
       - master
