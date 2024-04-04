@@ -13,7 +13,7 @@ jobs:
   kontrol-test:
     strategy:
       fail-fast: true
-    concurrency: kontrol-ci-demo
+    concurrency: kontrol-ci-demo-${{ github.ref_name }}
 
     name: Kontrol Tests
     runs-on: [self-hosted, linux, normal]

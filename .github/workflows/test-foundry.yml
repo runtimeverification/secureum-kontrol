@@ -11,6 +11,7 @@ env:
 
 jobs:
   check:
+    concurrency: kontrol-ci-demo-${{ github.ref_name }}
     strategy:
       fail-fast: true
 
