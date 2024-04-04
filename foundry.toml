@@ -4,4 +4,9 @@ out = "out"
 libs = ["lib"]
 
 ast = true
+
+[profile.ci]
+deny_warnings = true
+fuzz = { runs = 512 }
+
 # See more config options https://github.com/foundry-rs/foundry/blob/master/crates/config/README.md#all-options
