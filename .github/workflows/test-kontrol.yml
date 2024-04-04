@@ -6,6 +6,7 @@ on:
       FOUNDRY_PROFILE: 
         description: 'The Foundry profile to use'
         required: false
+        default: 'ci'
   pull_request:
     branches:
       - master
@@ -37,13 +38,6 @@ jobs:
         with:
           version: latest
       
-      - name: Cache Install Kontrol
-        id: cache-install-kontrol
-        uses: actions/cache/save@v4
-        with:
-          path: /nix/store
-          key: ${{ steps.restore-kontrol-cache.outputs.cache-primary-key}}
-        
       - name: Run Kontrol
         run: kontrol build
       
