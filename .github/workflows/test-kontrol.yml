@@ -1,0 +1,32 @@
+name: test
+
+on: 
+  workflow_dispatch:
+  pull_request:
+    branches:
+      - master
+
+env:
+  FOUNDRY_PROFILE: ci
+
+jobs:
+  check:
+    strategy:
+      fail-fast: true
+    concurrency: kontrol-ci-demo
+
+    name: Kontrol Tests
+    runs-on: [self-hosted, linux, normal]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Install Kontrol
+        uses: runtimeverification/install-kontrol@v1.0.1
+        with:
+          version: latest
+        
+      - name: Run Kontrol
+        run: kontrol build
+      

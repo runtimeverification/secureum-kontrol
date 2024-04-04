@@ -1,6 +1,10 @@
-name: test
+name: Test Foundry
 
-on: workflow_dispatch
+on: 
+  workflow_dispatch:
+  pull_request:
+    branches:
+      - master
 
 env:
   FOUNDRY_PROFILE: ci
