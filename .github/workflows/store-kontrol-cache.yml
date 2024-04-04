@@ -1,0 +1,23 @@
+name: Cache Install-Kontrol
+
+on: 
+  workflow_dispatch:
+
+jobs:
+  install-kontrol-and-cache:
+    concurrency: kontrol-ci-demo-${{ github.ref_name }}
+    name: Cache Install-Kontrol
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Install Kontrol
+        uses: runtimeverification/install-kontrol@v1.0.1
+        with:
+          version: latest
+      
+      - name: Cache Install Kontrol
+        id: cache-install-kontrol
+        uses: actions/cache/save@v4
+        with:
+          path: /nix/store
+          key: kontrol-${{ runner.os }}-install-kontrol
