@@ -35,16 +35,6 @@ abstract contract ERC20 {
     mapping(address => mapping(address => uint256)) public allowance;
 
     /*//////////////////////////////////////////////////////////////
-                            EIP-2612 STORAGE
-    //////////////////////////////////////////////////////////////*/
-
-    uint256 internal immutable INITIAL_CHAIN_ID;
-
-    bytes32 internal immutable INITIAL_DOMAIN_SEPARATOR;
-
-    mapping(address => uint256) public nonces;
-
-    /*//////////////////////////////////////////////////////////////
                                CONSTRUCTOR
     //////////////////////////////////////////////////////////////*/
 
