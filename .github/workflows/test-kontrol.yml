@@ -22,6 +22,12 @@ jobs:
     name: Kontrol Tests
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/cache/restore@v4
+        id: restore-kontrol-cache
+        with:
+          path: /nix/store
+          key: kontrol-${{ runner.os }}-install-kontrol
+
       - uses: actions/checkout@v4
         with:
           submodules: recursive
@@ -30,6 +36,13 @@ jobs:
         uses: runtimeverification/install-kontrol@v1.0.1
         with:
           version: latest
+      
+      - name: Cache Install Kontrol
+        id: cache-install-kontrol
+        uses: actions/cache/save@v4
+        with:
+          path: /nix/store
+          key: ${{ steps.restore-kontrol-cache.outputs.cache-primary-key}}
         
       - name: Run Kontrol
         run: kontrol build
