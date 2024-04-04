@@ -5,7 +5,7 @@ on:
 
 jobs:
   install-kontrol-and-cache:
-    concurrency: kontrol-ci-demo-${{ github.ref_name }}
+    concurrency: kontrol-caching
     name: Cache Install-Kontrol
     runs-on: ubuntu-latest
 
