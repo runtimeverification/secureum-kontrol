@@ -42,6 +42,50 @@ The [test]([url](https://github.com/runtimeverification/secureum-kontrol/blob/ma
         assert(toAllowance == amount);
     }
 ```
+### Day Four — Advanced Symbolic Testing with Kontrol
+
+The second workshop for Kontrol will cover several aspects, including [ERC4626](https://github.com/runtimeverification/secureum-kontrol/blob/master/test/ERC4626.t.sol) tests, addressing verification challenges such as loops and dynamically-sized Solidity types, and proving equivalence between Solidity and low-level gas optimized implementations for [Solady](https://github.com/runtimeverification/secureum-kontrol/blob/master/test/Equivalence.t.sol).
+
+### Proving properties 
+
+In the first part of the workshop, the following commands would help build the project and run two tests for the ERC4626 implementation we are using:
+```shell
+kontrol build
+kontrol prove --match-test test_totalAssets_doesNotRevert --match-test test_totalAssets_revertsWhenPaused -j2
+```
+
+The first test, checking if `test_totalAssets_doesNotRevert` never reverts, as requested by the EIP
+```solidity
+    function test_totalAssets_doesNotRevert(address caller) public {
+        _notBuiltinAddress(caller);
+        vm.prank(caller); vault.totalAssets();
+    }
+```
+will revert, since the implementation of the ERC4626 vault we are using here (for illustration purposes!) reverts if the contract has been paused.
+
+### Proving equivalence
+
+Kontrol, and FV in general, can be used to assert equivalence between different implementations of smart contract functions. To prove that a highly optimized implementation of `mulWad` funciton in Solady is equivalent to a more readable Solidity version, run
+```shell
+kontrol build --require lemmas/eq-lemmas.k --module-import EquivalenceTest:EQ-LEMMAS
+```
+to build a project with lemmas that, as discussed in the workshop, are needed for the following test to succeed:
+```solidity
+    function test_mulWad(uint256 x, uint256 y) public {
+        if (y == 0 || x <= type(uint256).max / y) {
+            uint256 zSpec = (x * y) / WAD;
+            uint256 zImpl = mulWad(x, y);
+            assert(zImpl == zSpec);
+        } else {
+            vm.expectRevert();
+            this.mulWad(x, y);
+        }
+    }
+```
+Then, run
+```shell
+kontrol prove --match-test testMulWad --smt-solver 10000
+```
 
 ### Help
 

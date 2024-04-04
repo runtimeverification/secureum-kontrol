@@ -25,13 +25,14 @@ contract MultiVaultTest is Test, KontrolCheats {
     }
 
     /// @custom:kontrol-bytes-length-equals vaultData: 256,
-    function test_create(address asset, uint256 totalSupply, bytes calldata vaultData) public {
+    function test_create_vault(address asset, uint256 totalSupply, bytes calldata vaultData) public {
         multiVault.create(asset, totalSupply, vaultData);
     }
 
     /// @custom:kontrol-array-length-equals vaults: 4,
     /// @custom:kontrol-bytes-length-equals vaultData: 256,
     function test_create_loop(Vault[] calldata vaults, uint length) public {
+        // WARN: missing check on `vaults.length` and `length`
         // WARN: Unbounded `for` loop is an anti-pattern 
         for (uint i = 0; i < length; i++) {
             multiVault.create(vaults[i].asset, vaults[i].totalSupply, vaults[i].vaultData);

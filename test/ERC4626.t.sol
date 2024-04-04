@@ -60,4 +60,11 @@ contract ERC4626Test is Test, KontrolCheats {
         vm.assume(x <= x + y);
         assert(true);
     }
+
+    function test_assume_noOverflow_freshVars() public {
+        uint256 x = kevm.freshUInt(32);
+        uint256 y = kevm.freshUInt(32);
+        vm.assume(x <= x + y);
+        assert(true);
+    }
 }

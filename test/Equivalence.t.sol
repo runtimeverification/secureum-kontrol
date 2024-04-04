@@ -6,7 +6,7 @@ contract EquivalenceTest is Test {
     uint256 internal constant WAD = 1e18; // The scalar of ETH and most ERC20s.
 
     /// @dev Equivalent to `(x * y) / WAD` rounded down.
-    function mulWad(uint x, uint y) public returns (uint256 z) {
+    function mulWad(uint x, uint y) public pure returns (uint256 z) {
         assembly {
             // Equivalent to `require(y == 0 || x <= type(uint256).max / y)`.
             if mul(y, gt(x, div(not(0), y))) {
@@ -18,7 +18,7 @@ contract EquivalenceTest is Test {
     }
 
     /// @dev Equivalent to `(x * y) / WAD` rounded up.
-    function mulWadUp(uint256 x, uint256 y) public returns (uint256 z) {
+    function mulWadUp(uint256 x, uint256 y) public pure returns (uint256 z) {
         /// @solidity memory-safe-assembly
         assembly {
             // Equivalent to `require(y == 0 || x <= type(uint256).max / y)`.
