@@ -20,7 +20,7 @@ jobs:
     concurrency: kontrol-ci-demo-${{ github.ref_name }}
 
     name: Kontrol Tests
-    runs-on: [self-hosted, linux, normal]
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
         with:
