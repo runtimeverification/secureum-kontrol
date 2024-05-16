@@ -1,0 +1,53 @@
+Running functions: ['test%ERC4626Test.test_balanceOf_doesNotRevert_selector(address)']
+PROOF FAILED: test%ERC4626Test.test_balanceOf_doesNotRevert_selector(address):0
+time: 13m 50s
+28 Failure nodes. (27 pending and 1 failing)
+
+Pending nodes: [80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106]
+
+Failing nodes:
+
+  Node id: 79
+  Failure reason:
+    Matching failed.
+    The remaining implication is:
+    #Not ( { VV0_owner_114b9705:Int #Equals 0 } )
+    #And { true #Equals 0 <=Int CALLER_ID:Int }
+    #And { true #Equals 0 <=Int ORIGIN_ID:Int }
+    #And { true #Equals 0 <=Int NUMBER_CELL:Int }
+    #And { true #Equals 0 <=Int TIMESTAMP_CELL:Int }
+    #And { true #Equals 0 <=Int VV0_owner_114b9705:Int }
+    #And #Not ( { CALLER_ID:Int #Equals 645326474426547203313410069153905908525362434349 } )
+    #And #Not ( { ORIGIN_ID:Int #Equals 645326474426547203313410069153905908525362434349 } )
+    #And #Not ( { CONTRACT_ID:Int #Equals 645326474426547203313410069153905908525362434349 } )
+    #And #Not ( { VV0_owner_114b9705:Int #Equals 263400868551549723330807389252719309078400616203 } )
+    #And #Not ( { VV0_owner_114b9705:Int #Equals 491460923342184218035706888008750043977755113263 } )
+    #And #Not ( { VV0_owner_114b9705:Int #Equals 645326474426547203313410069153905908525362434349 } )
+    #And #Not ( { VV0_owner_114b9705:Int #Equals 728815563385977040452943777879061427756277306518 } )
+    #And { true #Equals CALLER_ID:Int <Int pow160 }
+    #And { true #Equals ORIGIN_ID:Int <Int pow160 }
+    #And { true #Equals VV0_owner_114b9705:Int <Int pow160 }
+    #And { true #Equals NUMBER_CELL:Int <=Int maxSInt256 }
+    #And { true #Equals TIMESTAMP_CELL:Int <Int pow256 }
+    #And { false #Equals #range ( 0 < CALLER_ID:Int <= 9 ) }
+    #And { false #Equals #range ( 0 < ORIGIN_ID:Int <= 9 ) }
+    #And { selector ( "approve(address,uint256)" ) #Equals 50942633119752846454219349998365661925608737367104304655302372697894809501696 |Int #asWord ( #range ( #buf ( 32 , VV0_owner_114b9705:Int ) , 0 , 28 ) ) >>Int 224 } #Implies { true #Equals foundry_success ( ... statusCode: EVMC_REVERT , failed: #lookup ( .Map , 46308022326495007027972728677917914892729792999299745830475596687180801507328 ) , revertExpected: false , opcodeExpected: false , recordEventExpected: false , eventExpected: false ) }
+  Path condition:
+    { true #Equals 50942633119752846454219349998365661925608737367104304655302372697894809501696 |Int #asWord ( #range ( #buf ( 32 , VV0_owner_114b9705:Int ) , 0 , 28 ) ) >>Int 224 <Int selector ( "pause()" ) }
+#And { true #Equals 50942633119752846454219349998365661925608737367104304655302372697894809501696 |Int #asWord ( #range ( #buf ( 32 , VV0_owner_114b9705:Int ) , 0 , 28 ) ) >>Int 224 <Int selector ( "decimals()" ) }
+#And { true #Equals selector ( "approve(address,uint256)" ) <=Int 50942633119752846454219349998365661925608737367104304655302372697894809501696 |Int #asWord ( #range ( #buf ( 32 , VV0_owner_114b9705:Int ) , 0 , 28 ) ) >>Int 224 }
+#And { selector ( "approve(address,uint256)" ) #Equals 50942633119752846454219349998365661925608737367104304655302372697894809501696 |Int #asWord ( #range ( #buf ( 32 , VV0_owner_114b9705:Int ) , 0 , 28 ) ) >>Int 224 }
+  Model:
+    ORIGIN_ID = 10
+    TIMESTAMP_CELL = 0
+    CONTRACT_ID = 2
+    CALLER_ID = 10
+    VV0_owner_114b9705 = 1
+    NUMBER_CELL = 0
+
+Join the Runtime Verification Discord server for support: https://discord.gg/CurfmXNtbN
+
+See `foundry_success` predicate for more information:
+https://github.com/runtimeverification/kontrol/blob/master/src/kontrol/kdist/foundry.md#foundry-success-predicate
+
+Access documentation for Kontrol at https://docs.runtimeverification.com/kontrol

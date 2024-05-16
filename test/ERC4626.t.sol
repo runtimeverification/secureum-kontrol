@@ -18,6 +18,7 @@ contract ERC4626Test is Test, KontrolCheats {
         vm.assume(addr != address(vm));
         vm.assume(addr != address(asset));
         vm.assume(addr != address(vault));
+        vm.assume(addr != address(0x0));
     }
 
     function setUp() public {
@@ -67,4 +68,68 @@ contract ERC4626Test is Test, KontrolCheats {
         vm.assume(x <= x + y);
         assert(true);
     }
+
+    function test_asset_doesNotRevert_default()
+    public {
+        vault.asset();
+    }
+
+    function test_asset_doesNotRevert_selector()
+    public {
+        bytes memory data = abi.encodeWithSelector(vault.asset.selector);
+        (bool success, ) = address(vault).call(data);
+        assertTrue(success);
+    }
+
+    function test_asset_doesNotRevert_signature()
+    public {
+        bytes memory data = abi.encodeWithSignature("asset()");
+        (bool success, ) = address(vault).call(data);
+        assertTrue(success);
+    }
+
+    function test_balanceOf_doesNotRevert_default(address owner)
+    public {
+        _notBuiltinAddress(owner);
+        vault.balanceOf(owner);
+    }
+
+    function test_balanceOf_doesNotRevert_selector(address owner)
+    public {
+        _notBuiltinAddress(owner);
+        bytes memory data = abi.encodeWithSelector(vault.balanceOf.selector, owner);
+        (bool success, ) = address(vault).call(data);
+        assertTrue(success);
+    }
+
+    function test_balanceOf_doesNotRevert_signature(address owner)
+    public {
+        _notBuiltinAddress(owner);
+        bytes memory data = abi.encodeWithSignature("balanceOf(address)", owner);
+        (bool success, ) = address(vault).call(data);
+        assertTrue(success);
+    }
+
+    function test_maxRedeem_doesNotRevert_default(address owner)
+    public {
+        _notBuiltinAddress(owner);
+        vault.maxRedeem(owner);
+    }
+
+    function test_maxRedeem_doesNotRevert_selector(address owner)
+    public {
+        _notBuiltinAddress(owner);
+        bytes memory data = abi.encodeWithSelector(vault.maxRedeem.selector, owner);
+        (bool success, ) = address(vault).call(data);
+        assertTrue(success);
+    }
+
+    function test_maxRedeem_doesNotRevert_signature(address owner)
+    public {
+        _notBuiltinAddress(owner);
+        bytes memory data = abi.encodeWithSignature("maxRedeem(address)", owner);
+        (bool success, ) = address(vault).call(data);
+        assertTrue(success);
+    }
+
 }

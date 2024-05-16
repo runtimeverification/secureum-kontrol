@@ -1,0 +1,3 @@
+Running functions: ['test%ERC4626Test.test_asset_doesNotRevert_default()']
+PROOF PASSED: test%ERC4626Test.test_asset_doesNotRevert_default():0
+time: 55s
