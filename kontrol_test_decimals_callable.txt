@@ -1,0 +1,3 @@
+Running functions: ['test%ERC4626Test.test_decimals_callable()']
+PROOF PASSED: test%ERC4626Test.test_decimals_callable():0
+time: 51s

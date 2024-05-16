@@ -1,0 +1,45 @@
+Running functions: ['test%ERC4626Test.test_name_callable()']
+PROOF FAILED: test%ERC4626Test.test_name_callable():0
+time: 3m 35s
+6 Failure nodes. (5 pending and 1 failing)
+
+Pending nodes: [28, 29, 30, 31, 32]
+
+Failing nodes:
+
+  Node id: 27
+  Failure reason:
+    Matching failed.
+    The remaining implication is:
+    { true #Equals 0 <=Int CALLER_ID:Int }
+    #And { true #Equals 0 <=Int ORIGIN_ID:Int }
+    #And { true #Equals 0 <=Int NUMBER_CELL:Int }
+    #And { true #Equals 0 <=Int TIMESTAMP_CELL:Int }
+    #And #Not ( { CALLER_ID:Int #Equals 645326474426547203313410069153905908525362434349 } )
+    #And #Not ( { ORIGIN_ID:Int #Equals 645326474426547203313410069153905908525362434349 } )
+    #And #Not ( { CONTRACT_ID:Int #Equals 645326474426547203313410069153905908525362434349 } )
+    #And { true #Equals CALLER_ID:Int <Int pow160 }
+    #And { true #Equals ORIGIN_ID:Int <Int pow160 }
+    #And { true #Equals NUMBER_CELL:Int <=Int maxSInt256 }
+    #And { true #Equals TIMESTAMP_CELL:Int <Int pow256 }
+    #And #Not ( { 0 #Equals 1 &Int #lookup ( ?STORAGE:Map , 0 ) } )
+    #And { false #Equals #range ( 0 < CALLER_ID:Int <= 9 ) }
+    #And { false #Equals #range ( 0 < ORIGIN_ID:Int <= 9 ) }
+    #And { 0 #Equals chop ( 1 &Int #lookup ( ?STORAGE:Map , 0 ) -Int bool2Word ( #lookup ( ?STORAGE:Map , 0 ) >>Int 1 <Int 32 ) ) } #Implies { true #Equals foundry_success ( ... statusCode: EVMC_REVERT , failed: #lookup ( .Map , 46308022326495007027972728677917914892729792999299745830475596687180801507328 ) , revertExpected: false , opcodeExpected: false , recordEventExpected: false , eventExpected: false ) }
+  Path condition:
+    #Not ( { 1 &Int #lookup ( ?STORAGE:Map , 0 ) #Equals 0 } )
+#And { 0 #Equals chop ( 1 &Int #lookup ( ?STORAGE:Map , 0 ) -Int bool2Word ( #lookup ( ?STORAGE:Map , 0 ) >>Int 1 <Int 32 ) ) }
+  Model:
+    TIMESTAMP_CELL = 0
+    ORIGIN_ID = 10
+    ?STORAGE = ?STORAGE:Map
+    CALLER_ID = 10
+    CONTRACT_ID = 2
+    NUMBER_CELL = 0
+
+Join the Runtime Verification Discord server for support: https://discord.gg/CurfmXNtbN
+
+See `foundry_success` predicate for more information:
+https://github.com/runtimeverification/kontrol/blob/master/src/kontrol/kdist/foundry.md#foundry-success-predicate
+
+Access documentation for Kontrol at https://docs.runtimeverification.com/kontrol

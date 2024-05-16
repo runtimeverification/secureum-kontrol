@@ -27,6 +27,16 @@ contract ERC4626Test is Test, KontrolCheats {
         kevm.symbolicStorage(address(vault));
     }
 
+    // name is callable
+    function test_name_callable() public {
+        vault.name();
+    }
+
+    // decimals is callable
+    function test_decimals_callable() public {
+        vault.decimals();
+    }
+
     // totalAssets MUST NOT revert
     function test_totalAssets_doesNotRevert(address caller) public {
         _notBuiltinAddress(caller);
