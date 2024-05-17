@@ -83,8 +83,7 @@ contract ERC4626 is ERC20, Pausable {
         asset.safeTransfer(receiver, assets);
     }
 
-    // WARN: `whenNotPaused` is added for illustration purposes
-    function totalAssets() public view virtual whenNotPaused returns (uint256) {
+    function totalAssets() public view virtual returns (uint256) {
         return asset.balanceOf(address(this));
     }
 

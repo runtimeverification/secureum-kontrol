@@ -13,11 +13,23 @@ contract ERC4626Test is Test, KontrolCheats {
     address public alice;
     address public bob;
 
+    /// @notice To prevent assets overflow in functions such as `convertToShares`
+    /// When converting from assets to shares, the amount of assets is multipled by the totalSupply.
+    /// Hence, to avoid integer overflow, we need to make sure assets < MAX_UINT256 / totalSupply.
+    /// @dev Limit for overflow is reference from Solmate EIP-4626 and OZ ERC4626.sol.
+    modifier assetsOverflowRestriction(uint256 assets) {
+        if (vault.totalSupply() > 0) { 
+            vm.assume(assets < type(uint256).max / vault.totalSupply()); 
+        }
+        _;
+    }
+
     function _notBuiltinAddress(address addr) internal view {
         vm.assume(addr != address(this));
         vm.assume(addr != address(vm));
         vm.assume(addr != address(asset));
         vm.assume(addr != address(vault));
+        vm.assume(addr != address(0x0));
     }
 
     function setUp() public {
@@ -67,4 +79,13 @@ contract ERC4626Test is Test, KontrolCheats {
         vm.assume(x <= x + y);
         assert(true);
     }
+
+    function test_convertToShares_doesNotRevert(uint256 assets) public
+    {
+        vault.convertToShares(assets);
+    }
+
+    function test_convertToAssets_doesNotRevert(uint256 shares) public {
+        vault.convertToAssets(shares);
+    }  
 }
