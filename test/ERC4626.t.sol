@@ -31,8 +31,8 @@ contract ERC4626Test is Test, KontrolCheats {
     /// @dev Limit for overflow is reference from OZ ERC4626.sol 
     /// NOTE: Limit for overflow from Solmate EIP-4626 is shares < MAX_UINT256 / totalAssets instead
     modifier sharesOverflowRestriction(uint256 shares) {
-        if (cut4626.totalSupply() > 0) { 
-            vm.assume(shares < type(uint256).max / (cut4626.totalAssets() + 1));
+        if (vault.totalSupply() > 0) { 
+            vm.assume(shares < type(uint256).max / (vault.totalAssets() + 1));
         }
         _;
     }
@@ -49,6 +49,7 @@ contract ERC4626Test is Test, KontrolCheats {
         asset = new ERC20Mock();
         vault = new ERC4626(ERC20(address(asset)), "Vault", "VAULT");
 
+        kevm.symbolicStorage(address(asset));
         kevm.symbolicStorage(address(vault));
     }
 
@@ -95,6 +96,12 @@ contract ERC4626Test is Test, KontrolCheats {
 
     function test_convertToShares_doesNotRevert(uint256 assets) public
     {
+        vm.assume(vault.totalAssets() > 0);
+
+        if (vault.totalSupply() > 0) { 
+            vm.assume(assets < type(uint256).max / vault.totalSupply()); 
+        }
+
         vault.convertToShares(assets);
     }
 
